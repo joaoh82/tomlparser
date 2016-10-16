@@ -18,19 +18,24 @@ type Config struct {
 }
 
 func main() {
-	var config Config
-	if _, err := toml.DecodeFile("mytoml.toml", &config); err != nil {
-		log.Fatal(err)
-		return
-	}
+	config := parse("mytoml.toml")
 
 	fmt.Println("Age: ", config.Age)
 	for index, element := range config.Cats {
 		fmt.Printf("Cat %d: %s\n", index, element)
 	}
 	fmt.Println("Pi: ", config.Pi)
-	for index, element := range config.Cats {
-		fmt.Printf("Perfection %d: %s\n", index, element)
+	for index, element := range config.Perfection {
+		fmt.Printf("Perfection %d: %d\n", index, element)
 	}
 	fmt.Println("DOB: ", config.DOB)
+}
+
+func parse(path string) Config {
+	var config Config
+	if _, err := toml.DecodeFile(path, &config); err != nil {
+		log.Fatal(err)
+	}
+
+	return config
 }
